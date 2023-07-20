@@ -8,9 +8,6 @@ import PostsRouter from "./routes/posts.js";
 dotenv.config();
 const PORT = process.env.PORT || 5050;
 
-// configure database
-ConnectDB();
-
 const app = express();
 
 // middlewares
@@ -20,6 +17,9 @@ app.use(cors());
 
 // routes
 app.use("/api/posts", PostsRouter);
+
+// configure database
+ConnectDB();
 
 // run server
 app.listen(PORT, () => {
