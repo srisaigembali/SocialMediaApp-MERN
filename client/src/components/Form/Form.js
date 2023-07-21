@@ -120,7 +120,7 @@ const Form = ({ currentId, setCurrentId }) => {
           <Button
             variant='contained'
             color='secondary'
-            size='small'
+            size='medium'
             fullWidth
             onClick={clear}
           >
