@@ -14,17 +14,38 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { signup, signin } from "../../actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initialState);
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = () => {};
+    if (isSignup) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -98,9 +119,6 @@ const Auth = () => {
               />
             )}
           </Grid>
-          <span className={classes.googleButton}>
-            <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
-          </span>
           <Button
             type='submit'
             fullWidth
@@ -110,6 +128,9 @@ const Auth = () => {
           >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
+          <span className={classes.googleButton}>
+            <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
+          </span>
           <Grid container justifyContent='flex-end'>
             <Grid item>
               <Button onClick={switchMode}>
