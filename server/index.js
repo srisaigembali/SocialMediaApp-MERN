@@ -18,7 +18,7 @@ app.use(cors());
 
 // routes
 app.use("/api/posts", PostsRouter);
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 
 // configure database
 ConnectDB();

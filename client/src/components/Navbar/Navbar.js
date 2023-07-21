@@ -4,6 +4,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import memories from "../../images/memories.png";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
+import decode from "jwt-decode";
 
 const Navbar = () => {
   const [user, setUser] = useState(
@@ -16,6 +17,13 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout();
+    }
+
     setUser(JSON.parse(localStorage.getItem("memoryprofile")));
     //eslint-disable-next-line
   }, [location]);
@@ -48,10 +56,10 @@ const Navbar = () => {
               alt={user.result.given_name}
               src={user.result.picture}
             >
-              {user.result.name.charAt(0)}
+              {user.result.name.charAt(0).toUpperCase()}
             </Avatar>
             <Typography className={classes.userName} variant='h6'>
-              {user.result.given_name}
+              {user.result.name}
             </Typography>
             <Button
               variant='contained'
