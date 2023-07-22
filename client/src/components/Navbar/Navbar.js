@@ -37,30 +37,31 @@ const Navbar = () => {
 
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>
-      <Typography component={Link} to='/' className={classes.brandContainer}>
+      <Link to='/' className={classes.brandContainer}>
         <img src={memoriestext} alt='icon' height='45px' />
         <img
           className={classes.image}
           src={memorieslogo}
           alt='icon'
-          height='50px'
+          height='40px'
         />
-      </Typography>
+      </Link>
       <Toolbar className={classes.toolbar}>
-        {user ? (
+        {user?.result ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
-              alt={user.result.given_name}
-              src={user.result.picture}
+              alt={user?.result.name}
+              src={user?.result.picture}
             >
-              {user.result.name.charAt(0).toUpperCase()}
+              {user?.result.name.charAt(0).toUpperCase()}
             </Avatar>
             <Typography className={classes.userName} variant='h6'>
-              {user.result.name}
+              {user?.result.name}
             </Typography>
             <Button
               variant='contained'
+              className={classes.logout}
               color='secondary'
               onClick={handleLogout}
             >
