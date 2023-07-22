@@ -128,6 +128,7 @@ const Post = ({ post, setCurrentId }) => {
               onClick={() => {
                 setCurrentId(post._id);
               }}
+              style={{ margin: "0 10px" }}
             >
               <EditIcon fontSize='small' /> Edit
             </Button>
