@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
 
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await Post.findById(id);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({ success: false, message: error.message });
+  }
+};
+
 export const getPosts = async (req, res) => {
   const { page } = req.query;
   try {

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getPost,
   getPosts,
   createPost,
   updatePost,
@@ -11,6 +12,7 @@ import auth from "../middlewares/auth.js";
 
 const router = express.Router();
 
+router.get("/:id", getPost);
 router.get("/", getPosts);
 router.get("/search", getPostsBySearch);
 router.post("/create", auth, createPost);

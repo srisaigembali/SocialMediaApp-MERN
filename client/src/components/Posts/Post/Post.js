@@ -7,6 +7,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  // ButtonBase,
 } from "@material-ui/core/";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
@@ -16,10 +17,12 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("memoryprofile"));
   const [likes, setLikes] = useState(post?.likes);
   const userId = user?.result.sub || user?.result?._id;
@@ -62,8 +65,18 @@ const Post = ({ post, setCurrentId }) => {
     );
   };
 
+  const openPost = () => {
+    navigate(`/posts/${post._id}`);
+  };
+
   return (
-    <Card className={classes.card} raised elevation={6}>
+    <Card className={classes.card} raised elevation={6} onClick={openPost}>
+      {/* <ButtonBase
+        component='span'
+        name='test'
+        className={classes.cardAction}
+        onClick={openPost}
+      > */}
       <CardMedia
         className={classes.media}
         image={
@@ -78,17 +91,18 @@ const Post = ({ post, setCurrentId }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      {(user?.result?.sub === post?.creator ||
+      {(user?.result?.googleId === post?.creator ||
         user?.result?._id === post?.creator) && (
-        <div className={classes.overlay2}>
+        <div className={classes.overlay2} name='edit'>
           <Button
-            style={{ color: "white" }}
-            size='small'
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setCurrentId(post._id);
             }}
+            style={{ color: "white" }}
+            size='small'
           >
-            <MoreHorizIcon fontSize='medium' />
+            <MoreHorizIcon fontSize='default' />
           </Button>
         </div>
       )}
@@ -107,9 +121,10 @@ const Post = ({ post, setCurrentId }) => {
       </Typography>
       <CardContent>
         <Typography variant='body2' color='textSecondary' component='p'>
-          {post.message}
+          {post.message.split(" ").splice(0, 20).join(" ")}...
         </Typography>
       </CardContent>
+      {/* </ButtonBase> */}
       <CardActions className={classes.cardActions}>
         <Button
           size='small'
